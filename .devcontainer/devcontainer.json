@@ -1,31 +1,15 @@
 {
-    "name": "Azure Developer CLI",
-    "image": "mcr.microsoft.com/devcontainers/python:3.10-bullseye",
-    "features": {
-        // See https://containers.dev/features for list of features
-        "ghcr.io/devcontainers/features/docker-in-docker:2": {
-        },
-        "ghcr.io/azure/azure-dev/azd:latest": {}
-    },
+    "name": "Carbon-Based Calculator",
+    "image": "mcr.microsoft.com/devcontainers/typescript-node:22-bookworm",
     "customizations": {
         "vscode": {
             "extensions": [
-                "GitHub.vscode-github-actions",
                 "ms-azuretools.azure-dev",
-                "ms-azuretools.vscode-azurefunctions",
                 "ms-azuretools.vscode-bicep",
-                "ms-azuretools.vscode-docker"
-                // Include other VSCode language extensions if needed
-                // Right click on an extension inside VSCode to add directly to devcontainer.json, or copy the extension ID
+                "ms-vscode.vscode-node-azure-pack"
             ]
         }
     },
-    "forwardPorts": [
-        // Forward ports if needed for local development
-    ],
-    "postCreateCommand": "",
-    "remoteUser": "vscode",
-    "hostRequirements": {
-        "memory": "8gb"
-    }
+    "postCreateCommand": "sh .devcontainer/post-create.sh",
+    "remoteUser": "node"
 }
