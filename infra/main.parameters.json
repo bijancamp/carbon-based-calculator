@@ -7,6 +7,9 @@
       },
       "location": {
         "value": "${AZURE_LOCATION}"
+      },
+      "locationWeb": {
+        "value": "${AZURE_LOCATION_WEB}"
       }
     }
 }
