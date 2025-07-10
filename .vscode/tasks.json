@@ -1,0 +1,43 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Start Web",
+            "type": "dotenv",
+            "targetTasks": [
+                "Restore Web",
+                "Web npm start"
+            ],
+            "file": "${input:dotEnvFilePath}"
+        },
+        {
+            "label": "Restore Web",
+            "type": "shell",
+            "command": "azd restore web",
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Web npm start",
+            "detail": "Helper task--use 'Start Web' task to ensure environment is set up correctly",
+            "type": "shell",
+            "command": "npm run dev",
+            "options": {
+                "cwd": "${workspaceFolder}/src/web/"
+            },
+            "presentation": {
+                "panel": "dedicated",
+            },
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+            "id": "dotEnvFilePath",
+            "type": "command",
+            "command": "azure-dev.commands.getDotEnvFilePath"
+        }
+    ]
+}
