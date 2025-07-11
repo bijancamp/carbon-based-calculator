@@ -14,7 +14,7 @@ const DRILL_DEFS = {
   },
   'square-ending-5': {
     name: 'Square Two-Digit Number Ending in 5',
-    lastN: 3,
+    lastN: 5,
     generate: () => {
       const tens = Math.floor(Math.random() * 9) + 1;
       const n = tens * 10 + 5;
