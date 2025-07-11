@@ -68,10 +68,10 @@ export default function DrillPage() {
           {problem?.problem}
         </Typography>
         <Divider sx={{ my: 3 }} />
-        <Box sx={{ minHeight: 48, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Box sx={{ minHeight: 40, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Typography
             color="text.secondary"
-            sx={{ fontSize: '1.9rem', mt: 2, userSelect: 'none', visibility: showAnswer ? 'visible' : 'hidden', position: 'absolute' }}
+            sx={{ fontSize: '1.6rem', mt: 2, userSelect: 'none', visibility: showAnswer ? 'visible' : 'hidden', position: 'absolute' }}
           >
             {problem?.answer}
           </Typography>
