@@ -1,5 +1,10 @@
 on:
   workflow_dispatch:
+    inputs:
+      force-provision:
+        type: boolean
+        description: Force provisioning with `azd provision --no-state`
+        default: false
   push:
     branches:
       - main
@@ -52,7 +57,12 @@ jobs:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Provision Infrastructure
-        run: azd provision --no-prompt
+        run: |
+          if [ "${{ github.event.inputs.force-provision }}" = "true" ]; then
+            azd provision --no-prompt --no-state
+          else
+            azd provision --no-prompt
+          fi
         env:
           AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
           AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
