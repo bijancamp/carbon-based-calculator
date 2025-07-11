@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import { type ReactNode, useState } from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItemButton, ListItemText, Box, useMediaQuery, useTheme } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
+import CalculateIcon from '@mui/icons-material/Calculate';
 import { Link, useLocation, useNavigate } from 'react-router';
 
 const navItems = [
@@ -10,7 +11,7 @@ const navItems = [
   { label: 'About', path: '/about' },
 ];
 
-function AppLayout({ children, colorModeContext }: { children: React.ReactNode; colorModeContext: { toggleColorMode: () => void } }) {
+function AppLayout({ children, colorModeContext }: { children: ReactNode; colorModeContext: { toggleColorMode: () => void } }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -33,11 +34,25 @@ function AppLayout({ children, colorModeContext }: { children: React.ReactNode; 
               <MenuIcon />
             </IconButton>
           )}
+          {/* Logo and App Name */}
+          <CalculateIcon
+            sx={{
+              display: { xs: 'none', sm: 'block' }, // Hide on xs screens
+              alignItems: 'center',
+              mr: 1,
+            }}
+          />
           <Typography
             variant="h6"
             component={Link}
             to="/"
-            sx={{ flexGrow: 1, textDecoration: 'none', color: 'inherit', ml: isMobile ? 1 : 2, cursor: 'pointer' }}
+            sx={{
+              flexGrow: 1,
+              textDecoration: 'none',
+              color: 'inherit',
+              ml: isMobile ? 1 : 2,
+              cursor: 'pointer',
+            }}
           >
             Carbon-Based Calculator
           </Typography>
