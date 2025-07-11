@@ -1,4 +1,4 @@
-import { Card, CardActionArea, CardContent, Typography, Grid, useTheme, useMediaQuery } from '@mui/material';
+import { Card, CardActionArea, CardContent, Divider, Typography, Grid, useTheme, useMediaQuery } from '@mui/material';
 import { useNavigate } from 'react-router';
 
 const DRILLS = [
@@ -21,6 +21,12 @@ export default function HomePage() {
 
   return (
     <>
+      <Typography variant="subtitle1" sx={{ mb: 2, fontStyle: 'italic', textAlign: 'center' }}>
+        Mental Math Drills for the Magic-Minded 🧙
+      </Typography>
+
+      <Divider sx={{ mb: 3 }} />
+
       <Typography variant="h5" sx={{ mb: 2, fontWeight: 600, textAlign: 'center' }}>
         Choose Your Drill
       </Typography>
