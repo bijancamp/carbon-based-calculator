@@ -1,4 +1,4 @@
-import { Typography, Box } from '@mui/material';
+import { Box, Link, Typography } from '@mui/material';
 
 export default function AboutPage() {
   return (
@@ -7,10 +7,14 @@ export default function AboutPage() {
         About Carbon-Based Calculator
       </Typography>
       <Typography variant="body1" sx={{ mb: 2 }}>
-        Carbon-Based Calculator is a mental math practice app for magicians and math enthusiasts. Select a drill type and practice rapid calculation effects, like multiplying by 11 or squaring numbers ending in 5. The app is designed for speed, simplicity, and mobile-friendliness—no logins, no distractions, just pure practice.
+        Carbon-Based Calculator provides mental math drills for the magic-minded. Choose from curated drill types—like multiplying by 11 or squaring numbers ending in 5—and train yourself to calculate more quickly, easily, and <em>mathemagically</em>.
       </Typography>
-      <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', mt: 4 }}>
-        Created by Bijan Camp.
+      <Typography variant="body1" sx={{ mt: 3 }}>
+        Created by{' '}
+        <Link href="https://bijancamp.com" target="_blank" rel="noopener noreferrer">
+          Bijan Camp
+        </Link>
+        .
       </Typography>
     </Box>
   );
