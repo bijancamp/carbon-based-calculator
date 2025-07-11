@@ -1,6 +1,6 @@
 import { type ReactNode, useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItemButton, ListItemText, Box, useMediaQuery, useTheme } from '@mui/material';
+import { AppBar, Box, Drawer, IconButton, List, ListItemButton, ListItemText, Toolbar, Typography, useMediaQuery, useTheme } from '@mui/material';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
