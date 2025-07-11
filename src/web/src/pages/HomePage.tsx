@@ -22,7 +22,7 @@ export default function HomePage() {
   return (
     <>
       <Typography variant="h5" sx={{ mb: 2, fontWeight: 600, textAlign: 'center' }}>
-        {isMobile ? 'Tap a Drill Type' : 'Select a Drill Type'}
+        Choose Your Drill
       </Typography>
       <Grid container spacing={2} direction={isMobile ? 'column' : 'row'} justifyContent="center">
         {DRILLS.map((drill) => (
@@ -47,11 +47,6 @@ export default function HomePage() {
                   <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
                     {drill.description}
                   </Typography>
-                  {!isMobile && (
-                    <Typography variant="caption" color="primary.main" sx={{ mt: 1, display: 'block' }}>
-                      Start Drill
-                    </Typography>
-                  )}
                 </CardContent>
               </CardActionArea>
             </Card>
