@@ -6,6 +6,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 const DRILL_DEFS = {
   'multiply-by-11': {
     name: 'Multiply Two-Digit Number by 11',
+    lastN: 10,
     generate: () => {
       const n = Math.floor(Math.random() * 90) + 10;
       return { problem: `${n} × 11`, answer: n * 11 };
@@ -13,6 +14,7 @@ const DRILL_DEFS = {
   },
   'square-ending-5': {
     name: 'Square Two-Digit Number Ending in 5',
+    lastN: 3,
     generate: () => {
       const tens = Math.floor(Math.random() * 9) + 1;
       const n = tens * 10 + 5;
@@ -21,29 +23,31 @@ const DRILL_DEFS = {
   },
 };
 
-const LAST_N = 10;
-
 export default function DrillPage() {
   const { drillType } = useParams();
   const navigate = useNavigate();
   const drill = DRILL_DEFS[drillType as keyof typeof DRILL_DEFS];
   const [problem, setProblem] = useState<{ problem: string; answer: number } | null>(null);
   const [showAnswer, setShowAnswer] = useState(false);
-  const lastProblems = useRef<string[]>([]);
+  // Track last problems per drill type
+  const lastProblemsRef = useRef<{ [key: string]: string[] }>({});
 
   const generateUniqueProblem = useCallback(() => {
-    if (!drill) return;
+    if (!drill || !drillType) return;
     let p;
     let tries = 0;
+    const lastProblems = lastProblemsRef.current[drillType] || [];
     do {
       p = drill.generate();
       tries++;
-    } while (lastProblems.current.includes(p.problem) && tries < 20);
-    lastProblems.current.push(p.problem);
-    if (lastProblems.current.length > LAST_N) lastProblems.current.shift();
+    } while (lastProblems.includes(p.problem) && tries < 20);
+    // Update lastProblems for this drill type
+    const updatedProblems = [...lastProblems, p.problem];
+    if (updatedProblems.length > drill.lastN) updatedProblems.shift();
+    lastProblemsRef.current[drillType] = updatedProblems;
     setProblem(p);
     setShowAnswer(false);
-  }, [drill]);
+  }, [drill, drillType]);
 
   useEffect(() => {
     if (!drill) return;
