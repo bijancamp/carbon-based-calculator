@@ -11,7 +11,7 @@ export default function AboutPage() {
       </Typography>
       <Typography variant="body1" sx={{ mt: 3 }}>
         Created by{' '}
-        <Link href="https://bijancamp.com" target="_blank" rel="noopener noreferrer">
+        <Link href="https://bijancamp.com" target="_blank" rel="noopener noreferrer" underline="hover">
           Bijan Camp
         </Link>
         .
