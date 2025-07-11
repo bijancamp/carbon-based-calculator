@@ -1,5 +1,5 @@
 import { type ReactNode, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItemButton, ListItemText, Box, useMediaQuery, useTheme } from '@mui/material';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
@@ -15,7 +15,6 @@ function AppLayout({ children, colorModeContext }: { children: ReactNode; colorM
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const location = useLocation();
   const navigate = useNavigate();
 
   const handleDrawerToggle = () => setDrawerOpen((open) => !open);
@@ -38,8 +37,6 @@ function AppLayout({ children, colorModeContext }: { children: ReactNode; colorM
           <CalculateIcon
             sx={{
               display: { xs: 'none', sm: 'block' }, // Hide on xs screens
-              alignItems: 'center',
-              mr: 1,
             }}
           />
           <Typography
@@ -63,7 +60,7 @@ function AppLayout({ children, colorModeContext }: { children: ReactNode; colorM
                   <Typography
                     component={Link}
                     to={item.path}
-                    sx={{ color: location.pathname === item.path ? 'secondary.main' : 'inherit', textDecoration: 'none', fontWeight: 500 }}
+                    sx={{ color: 'inherit', textDecoration: 'none', fontWeight: 500 }}
                   >
                     {item.label}
                   </Typography>
@@ -88,7 +85,7 @@ function AppLayout({ children, colorModeContext }: { children: ReactNode; colorM
         </Box>
       </Drawer>
       <Toolbar />
-      <Box component="main" sx={{ flex: 1, p: { xs: 1, sm: 2, md: 3 }, width: '100%', maxWidth: 700, mx: 'auto' }}>
+      <Box component="main" sx={{ flex: 1, p: { xs: 2, sm: 3, md: 3 }, width: '100%', maxWidth: 700, mx: 'auto' }}>
         {children}
       </Box>
       <Box component="footer" sx={{ py: 1, px: 2, bgcolor: 'background.paper', textAlign: 'center', borderTop: 1, borderColor: 'divider', mt: 'auto' }}>
