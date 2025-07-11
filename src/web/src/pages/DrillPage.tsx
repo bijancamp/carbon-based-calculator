@@ -66,7 +66,7 @@ export default function DrillPage() {
       <Box
         sx={{
           position: 'relative',
-          px: 4,              // match Paper’s horizontal padding
+          px: 5,  // match Paper's horizontal padding
           mb: 2,
           display: 'flex',
           alignItems: 'center',
