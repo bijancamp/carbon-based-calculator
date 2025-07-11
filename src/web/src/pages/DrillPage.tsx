@@ -27,11 +27,13 @@ export default function DrillPage() {
   const { drillType } = useParams();
   const navigate = useNavigate();
   const drill = DRILL_DEFS[drillType as keyof typeof DRILL_DEFS];
-  const [problem, setProblem] = useState<{ problem: string; answer: number } | null>(null);
+  // History of problems for navigation
+  const [history, setHistory] = useState<{ problem: string; answer: number }[]>([]);
+  const [currentIdx, setCurrentIdx] = useState(-1); // -1 means no problem yet
   const [showAnswer, setShowAnswer] = useState(false);
-  // Track last problems per drill type
   const lastProblemsRef = useRef<{ [key: string]: string[] }>({});
 
+  // Generate a new unique problem and add to history
   const generateUniqueProblem = useCallback(() => {
     if (!drill || !drillType) return;
     let p;
@@ -45,15 +47,42 @@ export default function DrillPage() {
     const updatedProblems = [...lastProblems, p.problem];
     if (updatedProblems.length > drill.lastN) updatedProblems.shift();
     lastProblemsRef.current[drillType] = updatedProblems;
-    setProblem(p);
+    // Add to history
+    setHistory(prev => {
+      const newHistory = prev.slice(0, currentIdx + 1);
+      newHistory.push(p);
+      return newHistory;
+    });
+    setCurrentIdx(idx => idx + 1);
     setShowAnswer(false);
-  }, [drill, drillType]);
+  }, [drill, drillType, currentIdx]);
 
+  // On drillType change, reset history
   useEffect(() => {
     if (!drill) return;
+    setHistory([]);
+    setCurrentIdx(-1);
     generateUniqueProblem();
     // eslint-disable-next-line
   }, [drillType]);
+
+  const goPrevious = useCallback(() => {
+    if (currentIdx > 0) {
+      setCurrentIdx(idx => idx - 1);
+      setShowAnswer(false);
+    }
+  }, [currentIdx]);
+
+  const goNext = useCallback(() => {
+    if (currentIdx < history.length - 1) {
+      setCurrentIdx(idx => idx + 1);
+      setShowAnswer(false);
+    } else {
+      generateUniqueProblem();
+    }
+  }, [currentIdx, history.length, generateUniqueProblem]);
+
+  const currentProblem = history[currentIdx] || null;
 
   if (!drill) {
     return (
@@ -93,13 +122,13 @@ export default function DrillPage() {
       <Paper elevation={4} sx={{ p: 4, mb: 3, textAlign: 'center', cursor: 'pointer', minHeight: 100 }}
         onClick={() => {
           if (showAnswer) {
-            generateUniqueProblem();
+            goNext();
           } else {
             setShowAnswer(true);
           }
         }}>
         <Typography variant="h4" sx={{ mb: 1, userSelect: 'none' }}>
-          {problem?.problem}
+          {currentProblem?.problem}
         </Typography>
         <Divider sx={{ my: 3 }} />
         <Box sx={{ minHeight: 40, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -107,7 +136,7 @@ export default function DrillPage() {
             color="text.secondary"
             sx={{ fontSize: '1.6rem', mt: 2, userSelect: 'none', visibility: showAnswer ? 'visible' : 'hidden', position: 'absolute' }}
           >
-            {problem?.answer}
+            {currentProblem?.answer}
           </Typography>
           {!showAnswer && (
             <Typography variant="body1" color="text.secondary" sx={{ mt: 2, position: 'relative' }}>
@@ -117,10 +146,10 @@ export default function DrillPage() {
         </Box>
       </Paper>
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center">
-        <Button variant="outlined" color="primary" sx={{ minWidth: 100 }}>
+        <Button variant="outlined" color="primary" sx={{ minWidth: 100 }} onClick={goPrevious} disabled={currentIdx <= 0}>
           Previous
         </Button>
-        <Button variant="contained" color="primary" onClick={generateUniqueProblem} sx={{ minWidth: 100 }}>
+        <Button variant="contained" color="primary" onClick={goNext} sx={{ minWidth: 100 }}>
           Next
         </Button>
       </Stack>
