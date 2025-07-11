@@ -3,7 +3,7 @@ on:
     inputs:
       force-provision:
         type: boolean
-        description: Force provisioning with `azd provision --no-state`
+        description: Force provision
         default: false
   push:
     branches:
