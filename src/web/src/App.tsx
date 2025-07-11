@@ -6,7 +6,11 @@ import HomePage from './pages/HomePage';
 import DrillPage from './pages/DrillPage';
 import AboutPage from './pages/AboutPage';
 
-const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
+type ColorModeContextType = {
+  toggleColorMode: () => void;
+};
+
+const ColorModeContext = React.createContext<ColorModeContextType | undefined>(undefined);
 
 export default function App() {
   const [mode, setMode] = useState<'light' | 'dark'>('dark');
@@ -21,7 +25,7 @@ export default function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Router>
-          <AppLayout colorModeContext={colorMode}>
+          <AppLayout>
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/drills/:drillType" element={<DrillPage />} />

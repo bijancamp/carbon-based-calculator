@@ -1,17 +1,19 @@
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItemButton, ListItemText, Box, useMediaQuery, useTheme } from '@mui/material';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import MenuIcon from '@mui/icons-material/Menu';
+import { ColorModeContext } from '../App';
 
 const navItems = [
   { label: 'Home', path: '/' },
   { label: 'About', path: '/about' },
 ];
 
-function AppLayout({ children, colorModeContext }: { children: ReactNode; colorModeContext: { toggleColorMode: () => void } }) {
+function AppLayout({ children }: { children: ReactNode }) {
+  const colorModeContext = useContext(ColorModeContext);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -68,7 +70,7 @@ function AppLayout({ children, colorModeContext }: { children: ReactNode; colorM
               ))}
             </>
           )}
-          <IconButton sx={{ ml: 2 }} onClick={colorModeContext.toggleColorMode} color="inherit">
+          <IconButton sx={{ ml: 2 }} onClick={colorModeContext?.toggleColorMode} color="inherit">
             {theme.palette.mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
           </IconButton>
         </Toolbar>
