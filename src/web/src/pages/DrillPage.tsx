@@ -89,10 +89,12 @@ export default function DrillPage() {
         </Box>
       </Paper>
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center">
-        <Button variant="contained" color="primary" onClick={generateUniqueProblem}>
-          Next Problem
+        <Button variant="outlined" color="primary" sx={{ minWidth: 100 }}>
+          Previous
         </Button>
-        <Button variant="outlined" color="secondary" onClick={() => navigate('/')}>Change Drill</Button>
+        <Button variant="contained" color="primary" onClick={generateUniqueProblem} sx={{ minWidth: 100 }}>
+          Next
+        </Button>
       </Stack>
     </Box>
   );
