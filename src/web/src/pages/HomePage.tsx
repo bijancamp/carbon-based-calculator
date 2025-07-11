@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router';
 const DRILLS = [
   {
     type: 'multiply-by-11',
-    name: 'Multiply Two-Digit Number by 11',
-    description: 'Practice multiplying any two-digit number by 11 quickly in your head.',
+    name: 'Multiply Two-Digit Numbers by 11',
+    description: 'Unleash your inner Eleven. Close the Mothergate.',
   },
   {
     type: 'square-ending-5',
-    name: 'Square Two-Digit Number Ending in 5',
-    description: 'Practice squaring numbers like 25, 35, 95, etc. (ending in 5) instantly.',
+    name: 'Square Two-Digit Number Endings in 5',
+    description: "This isn't squaring light, but every mathemagician needs an Act I.",
   },
 ];
 
