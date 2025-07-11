@@ -63,7 +63,13 @@ export default function DrillPage() {
     <Box>
       <Typography variant="h5" sx={{ mb: 2, fontWeight: 600, textAlign: 'center' }}>{drill.name}</Typography>
       <Paper elevation={4} sx={{ p: 4, mb: 3, textAlign: 'center', cursor: 'pointer', minHeight: 100 }}
-        onClick={() => setShowAnswer(true)}>
+        onClick={() => {
+          if (showAnswer) {
+            generateUniqueProblem();
+          } else {
+            setShowAnswer(true);
+          }
+        }}>
         <Typography variant="h4" sx={{ mb: 1, userSelect: 'none' }}>
           {problem?.problem}
         </Typography>
