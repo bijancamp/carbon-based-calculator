@@ -28,7 +28,7 @@ function AppLayout({ children }: { children: ReactNode }) {
   };
 
   return (
-    <Box sx={{ minHeight: { xs: '100dvh', sm: '100vh' }, display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column' }}>
       <AppBar position="fixed">
         <Toolbar>
           {isMobile && (
