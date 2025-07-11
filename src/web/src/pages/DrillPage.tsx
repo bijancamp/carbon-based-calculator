@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { Box, Button, Divider, Paper, Stack, Typography } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const DRILL_DEFS = {
   'multiply-by-11': {
@@ -61,7 +62,30 @@ export default function DrillPage() {
 
   return (
     <Box>
-      <Typography variant="h5" sx={{ mb: 2, fontWeight: 600, textAlign: 'center' }}>{drill.name}</Typography>
+      {/* Title + back button wrapper */}
+      <Box
+        sx={{
+          position: 'relative',
+          px: 4,              // match Paper’s horizontal padding
+          mb: 2,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <ArrowBackIcon
+          onClick={() => navigate('/')}
+          sx={{
+            position: 'absolute',
+            left: 0,
+            cursor: 'pointer',
+            color: 'text.secondary',
+          }}
+        />
+        <Typography variant="h5" sx={{ fontWeight: 600 }}>
+          {drill.name}
+        </Typography>
+      </Box>
       <Paper elevation={4} sx={{ p: 4, mb: 3, textAlign: 'center', cursor: 'pointer', minHeight: 100 }}
         onClick={() => {
           if (showAnswer) {
