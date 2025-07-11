@@ -1,10 +1,10 @@
 import { type ReactNode, useState } from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItemButton, ListItemText, Box, useMediaQuery, useTheme } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
-import CalculateIcon from '@mui/icons-material/Calculate';
 import { Link, useLocation, useNavigate } from 'react-router';
+import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItemButton, ListItemText, Box, useMediaQuery, useTheme } from '@mui/material';
+import CalculateIcon from '@mui/icons-material/Calculate';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import MenuIcon from '@mui/icons-material/Menu';
 
 const navItems = [
   { label: 'Home', path: '/' },
@@ -72,7 +72,7 @@ function AppLayout({ children, colorModeContext }: { children: ReactNode; colorM
             </>
           )}
           <IconButton sx={{ ml: 2 }} onClick={colorModeContext.toggleColorMode} color="inherit">
-            {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+            {theme.palette.mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
           </IconButton>
         </Toolbar>
       </AppBar>
