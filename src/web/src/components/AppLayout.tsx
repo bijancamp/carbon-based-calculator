@@ -87,7 +87,7 @@ function AppLayout({ children }: { children: ReactNode }) {
         </Box>
       </Drawer>
       <Toolbar />
-      <Box component="main" sx={{ flex: 1, p: { xs: 2, sm: 3, md: 3 }, width: '100%', maxWidth: 700, mx: 'auto' }}>
+      <Box component="main" sx={{ flex: 1, p: { xs: 2, sm: 2, md: 3 }, width: '100%', maxWidth: 700, mx: 'auto' }}>
         {children}
       </Box>
       <Box component="footer" sx={{ py: 1, px: 2, bgcolor: 'background.paper', textAlign: 'center', borderTop: 1, borderColor: 'divider', mt: 'auto' }}>
