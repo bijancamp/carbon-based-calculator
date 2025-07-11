@@ -1,4 +1,4 @@
-import { createContext, useMemo, useState } from 'react';
+import { createContext, useEffect, useMemo, useState } from 'react';
 import { Navigate, BrowserRouter as Router, Route, Routes } from 'react-router';
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import AppLayout from './components/AppLayout';
@@ -13,7 +13,19 @@ type ColorModeContextType = {
 const ColorModeContext = createContext<ColorModeContextType | undefined>(undefined);
 
 export default function App() {
-  const [mode, setMode] = useState<'light' | 'dark'>('dark');
+  // Read initial mode from localStorage, defaulting to 'dark'
+  const getInitialMode = () => {
+    const stored = localStorage.getItem('themeMode');
+    return stored === 'light' ? 'light' : 'dark';
+  };
+
+  const [mode, setMode] = useState<'light' | 'dark'>(getInitialMode);
+
+  // Persist mode to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('themeMode', mode);
+  }, [mode]);
+
   const colorMode = useMemo(
     () => ({ toggleColorMode: () => setMode((prev) => (prev === 'light' ? 'dark' : 'light')) }),
     []
