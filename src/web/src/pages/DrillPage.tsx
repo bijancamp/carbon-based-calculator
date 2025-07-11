@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useParams, useNavigate } from 'react-router';
-import { Box, Typography, Paper, Button, Stack } from '@mui/material';
+import { useNavigate, useParams } from 'react-router';
+import { Box, Button, Divider, Paper, Stack, Typography } from '@mui/material';
 
 const DRILL_DEFS = {
   'multiply-by-11': {
@@ -67,14 +67,20 @@ export default function DrillPage() {
         <Typography variant="h4" sx={{ mb: 1, userSelect: 'none' }}>
           {problem?.problem}
         </Typography>
-        {showAnswer && (
-          <Typography variant="h5" color="primary" sx={{ mt: 2, userSelect: 'none' }}>
+        <Divider sx={{ my: 3 }} />
+        <Box sx={{ minHeight: 48, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Typography
+            color="text.secondary"
+            sx={{ fontSize: '1.9rem', mt: 2, userSelect: 'none', visibility: showAnswer ? 'visible' : 'hidden', position: 'absolute' }}
+          >
             {problem?.answer}
           </Typography>
-        )}
-        {!showAnswer && (
-          <Typography variant="caption" color="text.secondary">Tap or click to reveal answer</Typography>
-        )}
+          {!showAnswer && (
+            <Typography variant="body1" color="text.secondary" sx={{ mt: 2, position: 'relative' }}>
+              Tap or click to reveal answer
+            </Typography>
+          )}
+        </Box>
       </Paper>
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center">
         <Button variant="contained" color="primary" onClick={generateUniqueProblem}>
