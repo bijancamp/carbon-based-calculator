@@ -1,6 +1,7 @@
 import { type ReactNode, useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { AppBar, Box, Drawer, IconButton, List, ListItemButton, ListItemText, Toolbar, Typography, useMediaQuery, useTheme } from '@mui/material';
+import MaterialLink from '@mui/material/Link';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
@@ -92,7 +93,11 @@ function AppLayout({ children }: { children: ReactNode }) {
       </Box>
       <Box component="footer" sx={{ py: 1, px: 2, bgcolor: 'background.paper', textAlign: 'center', borderTop: 1, borderColor: 'divider', mt: 'auto' }}>
         <Typography variant="caption" color="text.secondary">
-          © 2025 Bijan Camp. All rights reserved.
+          © {new Date().getFullYear()}{' '}
+          <MaterialLink href="https://bijancamp.com" target="_blank" rel="noopener noreferrer" underline="hover">
+            Bijan Camp
+          </MaterialLink>
+          . All rights reserved.
         </Typography>
       </Box>
     </Box>
