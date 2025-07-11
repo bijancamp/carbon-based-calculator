@@ -10,7 +10,7 @@ const DRILLS = [
   {
     type: 'square-ending-5',
     name: 'Square Two-Digit Number Endings in 5',
-    description: "This isn't squaring light, but every mathemagician needs an Act I.",
+    description: "This isn't exactly squaring light, but every mathemagician needs an Act I.",
   },
 ];
 
