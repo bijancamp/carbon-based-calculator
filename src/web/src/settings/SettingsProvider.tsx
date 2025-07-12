@@ -35,9 +35,6 @@ export default function SettingsProvider({ children }: { children: ReactNode }) 
         .map(v => ({
           name: v.name,
           lang: v.lang,
-          default: v.default,
-          localService: v.localService,
-          voiceURI: v.voiceURI,
           displayName: `${v.name} (${v.lang})`
         }));
       
@@ -55,9 +52,6 @@ export default function SettingsProvider({ children }: { children: ReactNode }) 
       const systemDefault: Voice = {
         name: 'System Default',
         lang: '',
-        default: true,
-        localService: true,
-        voiceURI: '',
         displayName: 'System Default'
       };
       

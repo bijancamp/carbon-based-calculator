@@ -3,9 +3,6 @@ import { createContext } from 'react';
 export type Voice = {
   name: string;
   lang: string;
-  default: boolean,
-  localService: boolean,
-  voiceURI: string,
   displayName: string; // Format: "Name (Lang)"
 };
 
