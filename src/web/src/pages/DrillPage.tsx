@@ -78,6 +78,7 @@ export default function DrillPage() {
       const selectedVoice = voices.find(v => v.name === voice.name && v.lang === voice.lang);
       if (selectedVoice) {
         utterance.voice = selectedVoice;
+        utterance.lang = selectedVoice.lang;
       }
     }
     

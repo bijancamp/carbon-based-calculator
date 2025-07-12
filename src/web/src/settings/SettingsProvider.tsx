@@ -29,12 +29,14 @@ export default function SettingsProvider({ children }: { children: ReactNode }) 
     const populate = () => {
       const voices = window.speechSynthesis.getVoices();
       
-      // Create voice objects with name, lang, and displayName
-      const voiceObjects = voices.map(v => ({
-        name: v.name,
-        lang: v.lang,
-        displayName: `${v.name} (${v.lang})`
-      }));
+      // Filter for only English voices and create voice objects
+      const voiceObjects = voices
+        .filter(v => v.lang.startsWith('en-'))
+        .map(v => ({
+          name: v.name,
+          lang: v.lang,
+          displayName: `${v.name} (${v.lang})`
+        }));
       
       // Sort voices by lang and then by name
       const sortedVoices = voiceObjects.sort((a, b) => {
@@ -149,7 +151,7 @@ export default function SettingsProvider({ children }: { children: ReactNode }) 
     if (previousVoiceRef.current !== currentVoiceKey) {
       // Voice preview
       if ('speechSynthesis' in window) {
-        const utter = new window.SpeechSynthesisUtterance('2 + 2');
+        const utter = new window.SpeechSynthesisUtterance('2 plus 2');
         const synthesisVoices = window.speechSynthesis.getVoices();
         
         // Only set a specific voice if not using system default
