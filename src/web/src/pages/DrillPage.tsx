@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { Box, Button, Divider, Paper, Stack, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import SettingsContext from '../settings/SettingsContext';
 
 const DRILL_DEFS = {
   'multiply-by-11': {
@@ -9,7 +10,11 @@ const DRILL_DEFS = {
     lastN: 10,
     generate: () => {
       const n = Math.floor(Math.random() * 90) + 10;
-      return { problem: `${n} × 11`, answer: n * 11 };
+      return { 
+        problem: `${n} × 11`, 
+        speech: `${n} times 11`, 
+        answer: n * 11
+      };
     },
   },
   'square-ending-5': {
@@ -18,7 +23,11 @@ const DRILL_DEFS = {
     generate: () => {
       const tens = Math.floor(Math.random() * 9) + 1;
       const n = tens * 10 + 5;
-      return { problem: `${n}²`, answer: n * n };
+      return { 
+        problem: `${n}²`, 
+        speech: `${n} squared`, 
+        answer: n * n
+      };
     },
   },
 };
@@ -26,12 +35,38 @@ const DRILL_DEFS = {
 export default function DrillPage() {
   const { drillType } = useParams();
   const navigate = useNavigate();
+  const { voiceMode, voice } = useContext(SettingsContext);
   const drill = DRILL_DEFS[drillType as keyof typeof DRILL_DEFS];
+  const speakRef = useRef<SpeechSynthesisUtterance | null>(null);
   // History of problems for navigation
-  const [history, setHistory] = useState<{ problem: string; answer: number }[]>([]);
+  const [history, setHistory] = useState<{ problem: string; speech: string; answer: number }[]>([]);
   const [currentIdx, setCurrentIdx] = useState(-1); // -1 means no problem yet
   const [showAnswer, setShowAnswer] = useState(false);
   const lastProblemsRef = useRef<{ [key: string]: string[] }>({});
+
+  // Function to speak text
+  const speakText = useCallback((text: string) => {
+    if (!voiceMode || !window.speechSynthesis) return;
+    
+    // Cancel any ongoing speech
+    if (speakRef.current) {
+      window.speechSynthesis.cancel();
+    }
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    speakRef.current = utterance;
+    
+    // Set the voice if specified
+    if (voice) {
+      const voices = window.speechSynthesis.getVoices();
+      const selectedVoice = voices.find(v => v.name === voice);
+      if (selectedVoice) {
+        utterance.voice = selectedVoice;
+      }
+    }
+    
+    window.speechSynthesis.speak(utterance);
+  }, [voiceMode, voice]);
 
   // Generate a new unique problem and add to history
   const generateUniqueProblem = useCallback(() => {
@@ -83,6 +118,24 @@ export default function DrillPage() {
   }, [currentIdx, history.length, generateUniqueProblem]);
 
   const currentProblem = history[currentIdx] || null;
+  
+  // Speak the current problem when they change
+  useEffect(() => {
+    if (currentProblem && voiceMode) {
+      if (!showAnswer) {
+        speakText(currentProblem.speech);
+      }
+    }
+  }, [currentProblem, showAnswer, voiceMode, speakText]);
+
+  // Cleanup speech synthesis on unmount
+  useEffect(() => {
+    return () => {
+      if (window.speechSynthesis && speakRef.current) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
 
   if (!drill) {
     return (
