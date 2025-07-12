@@ -50,7 +50,13 @@ export default function DrillPage() {
   // Update ref when spokenProblemsMode changes
   useEffect(() => {
     spokenProblemsModeRef.current = spokenProblemsMode;
-  }, [spokenProblemsMode]);
+    
+    // If spoken problems mode is enabled and answer is not showing,
+    // immediately show the answer for the current problem
+    if (spokenProblemsMode && !showAnswer) {
+      setShowAnswer(true);
+    }
+  }, [spokenProblemsMode, showAnswer]);
   
   // Update ref when voice changes
   useEffect(() => {
@@ -106,7 +112,8 @@ export default function DrillPage() {
       return newHistory;
     });
     setCurrentIdx(idx => idx + 1);
-    setShowAnswer(false);
+    // Show answer immediately if spoken problems mode is enabled
+    setShowAnswer(spokenProblemsModeRef.current);
   }, [drill, drillType, currentIdx]);
 
   // On drillType change, reset history
@@ -121,14 +128,16 @@ export default function DrillPage() {
   const goPrevious = useCallback(() => {
     if (currentIdx > 0) {
       setCurrentIdx(idx => idx - 1);
-      setShowAnswer(false);
+      // Show answer immediately if spoken problems mode is enabled
+      setShowAnswer(spokenProblemsModeRef.current);
     }
   }, [currentIdx]);
 
   const goNext = useCallback(() => {
     if (currentIdx < history.length - 1) {
       setCurrentIdx(idx => idx + 1);
-      setShowAnswer(false);
+      // Show answer immediately if spoken problems mode is enabled
+      setShowAnswer(spokenProblemsModeRef.current);
     } else {
       generateUniqueProblem();
     }
@@ -136,16 +145,16 @@ export default function DrillPage() {
 
   const currentProblem = history[currentIdx] || null;
 
-  // Speak the current problem when they change
+  // Speak the current problem when rendered
   useEffect(() => {
-    if (currentProblem && spokenProblemsModeRef.current && !showAnswer) {
+    if (currentProblem && spokenProblemsModeRef.current) {
       // Only speak if this is a different problem than the last one we spoke
       if (lastSpokenProblemRef.current !== currentProblem.problem) {
         speakText(currentProblem.speech);
         lastSpokenProblemRef.current = currentProblem.problem;
       }
     }
-  }, [currentProblem, showAnswer, speakText]);
+  }, [currentProblem, speakText]);
 
   // Cleanup speech synthesis on unmount
   useEffect(() => {
@@ -210,7 +219,7 @@ export default function DrillPage() {
           >
             {currentProblem?.answer}
           </Typography>
-          {!showAnswer && (
+          {!showAnswer && !spokenProblemsModeRef.current && (
             <Typography variant="body1" color="text.secondary" sx={{ mt: 2, position: 'relative' }}>
               Tap or click to reveal answer
             </Typography>
