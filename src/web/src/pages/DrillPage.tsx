@@ -35,7 +35,7 @@ const DRILL_DEFS = {
 export default function DrillPage() {
   const { drillType } = useParams();
   const navigate = useNavigate();
-  const { voiceMode, voice } = useContext(SettingsContext);
+  const { spokenProblemsMode, voice } = useContext(SettingsContext);
   const drill = DRILL_DEFS[drillType as keyof typeof DRILL_DEFS];
   const speakRef = useRef<SpeechSynthesisUtterance | null>(null);
   // History of problems for navigation
@@ -47,7 +47,7 @@ export default function DrillPage() {
 
   // Function to speak text
   const speakText = useCallback((text: string) => {
-    if (!voiceMode || !window.speechSynthesis) return;
+    if (!spokenProblemsMode || !window.speechSynthesis) return;
     
     // Cancel any ongoing speech
     if (speakRef.current) {
@@ -67,7 +67,7 @@ export default function DrillPage() {
     }
     
     window.speechSynthesis.speak(utterance);
-  }, [voiceMode, voice]);
+  }, [spokenProblemsMode, voice]);
 
   // Generate a new unique problem and add to history
   const generateUniqueProblem = useCallback(() => {
@@ -122,14 +122,14 @@ export default function DrillPage() {
   
   // Speak the current problem when they change
   useEffect(() => {
-    if (currentProblem && voiceMode && !showAnswer) {
+    if (currentProblem && spokenProblemsMode && !showAnswer) {
       // Only speak if this is a different problem than the last one we spoke
       if (lastSpokenProblemRef.current !== currentProblem.problem) {
         speakText(currentProblem.speech);
         lastSpokenProblemRef.current = currentProblem.problem;
       }
     }
-  }, [currentProblem, showAnswer, voiceMode, speakText]);
+  }, [currentProblem, showAnswer, spokenProblemsMode, speakText]);
 
   // Cleanup speech synthesis on unmount
   useEffect(() => {

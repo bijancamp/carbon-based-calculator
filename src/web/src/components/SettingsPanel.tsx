@@ -12,8 +12,8 @@ export default function SettingsPanel({ open, onClose }: SettingsPanelProps) {
   const {
     theme,
     setTheme,
-    voiceMode,
-    setVoiceMode,
+    spokenProblemsMode,
+    setSpokenProblemsMode,
     voice,
     setVoice,
     availableVoices,
@@ -21,8 +21,8 @@ export default function SettingsPanel({ open, onClose }: SettingsPanelProps) {
   } = useContext(SettingsContext);
 
   useEffect(() => {
-    if (voiceMode && open) loadVoices();
-  }, [voiceMode, loadVoices, open]);
+    if (spokenProblemsMode && open) loadVoices();
+  }, [spokenProblemsMode, loadVoices, open]);
 
   return (
     <Drawer
@@ -53,14 +53,14 @@ export default function SettingsPanel({ open, onClose }: SettingsPanelProps) {
       </Box>
 
       <Box sx={{ mb: 3 }}>
-        <Typography variant="subtitle1" fontWeight={500}>Voice Mode</Typography>
+        <Typography variant="subtitle1" fontWeight={500}>Spoken Problems</Typography>
         <FormControlLabel
-          control={<Switch checked={voiceMode} onChange={e => setVoiceMode(e.target.checked)} />}
-          label={voiceMode ? 'On' : 'Off'}
+          control={<Switch checked={spokenProblemsMode} onChange={e => setSpokenProblemsMode(e.target.checked)} />}
+          label={spokenProblemsMode ? 'On' : 'Off'}
         />
       </Box>
 
-      {voiceMode && (
+      {spokenProblemsMode && (
         <Box sx={{ mb: 3 }}>
           <Typography variant="subtitle1" fontWeight={500}>Voice</Typography>
           <Select

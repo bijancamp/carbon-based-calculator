@@ -3,8 +3,8 @@ import { createContext } from 'react';
 export type SettingsContextType = {
   theme: 'light' | 'dark';
   setTheme: (mode: 'light' | 'dark') => void;
-  voiceMode: boolean;
-  setVoiceMode: (on: boolean) => void;
+  spokenProblemsMode: boolean;
+  setSpokenProblemsMode: (on: boolean) => void;
   voice: string;
   setVoice: (voice: string) => void;
   availableVoices: string[];
@@ -14,8 +14,8 @@ export type SettingsContextType = {
 const SettingsContext = createContext<SettingsContextType>({
   theme: 'dark',
   setTheme: () => {},
-  voiceMode: false,
-  setVoiceMode: () => {},
+  spokenProblemsMode: false,
+  setSpokenProblemsMode: () => {},
   voice: '',
   setVoice: () => {},
   availableVoices: [],

@@ -11,13 +11,13 @@ export default function SettingsProvider({ children }: { children: ReactNode }) 
     localStorage.setItem('themeMode', theme);
   }, [theme]);
 
-  // Voice Mode
-  const [voiceMode, setVoiceMode] = useState(() => {
-    return localStorage.getItem('voiceMode') === 'true';
+  // Spoken Problems Mode
+  const [spokenProblemsMode, setSpokenProblemsMode] = useState(() => {
+    return localStorage.getItem('spokenProblemsMode') === 'true';
   });
   useEffect(() => {
-    localStorage.setItem('voiceMode', String(voiceMode));
-  }, [voiceMode]);
+    localStorage.setItem('spokenProblemsMode', String(spokenProblemsMode));
+  }, [spokenProblemsMode]);
 
   // Available voices
   const [availableVoices, setAvailableVoices] = useState<string[]>([]);
@@ -52,8 +52,8 @@ export default function SettingsProvider({ children }: { children: ReactNode }) 
   
   // Reload voices when voice mode is enabled
   useEffect(() => {
-    if (voiceMode) loadVoices();
-  }, [voiceMode, loadVoices]);
+    if (spokenProblemsMode) loadVoices();
+  }, [spokenProblemsMode, loadVoices]);
 
   // Set initial voice when availableVoices changes
   useEffect(() => {
@@ -70,7 +70,7 @@ export default function SettingsProvider({ children }: { children: ReactNode }) 
 
   // Voice preview when voice changes
   useEffect(() => {
-    if (!voice || !voiceMode) return;
+    if (!voice || !spokenProblemsMode) return;
     
     localStorage.setItem('voice', voice);
     
@@ -88,18 +88,18 @@ export default function SettingsProvider({ children }: { children: ReactNode }) 
       window.speechSynthesis.cancel(); // Stop any ongoing speech
       window.speechSynthesis.speak(utter);
     }
-  }, [voice, voiceMode]);
+  }, [voice, spokenProblemsMode]);
 
   const value = useMemo(() => ({
     theme,
     setTheme,
-    voiceMode,
-    setVoiceMode,
+    spokenProblemsMode,
+    setSpokenProblemsMode,
     voice,
     setVoice,
     availableVoices,
     loadVoices,
-  }), [theme, voiceMode, voice, availableVoices, loadVoices]);
+  }), [theme, spokenProblemsMode, voice, availableVoices, loadVoices]);
 
   return <SettingsContext.Provider value={value}>{children}</SettingsContext.Provider>;
 }
