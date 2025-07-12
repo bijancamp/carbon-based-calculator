@@ -149,7 +149,7 @@ export default function SettingsProvider({ children }: { children: ReactNode }) 
     if (previousVoiceRef.current !== currentVoiceKey) {
       // Voice preview
       if ('speechSynthesis' in window) {
-        const utter = new window.SpeechSynthesisUtterance('Ready for a challenge?');
+        const utter = new window.SpeechSynthesisUtterance('2 + 2');
         const synthesisVoices = window.speechSynthesis.getVoices();
         
         // Only set a specific voice if not using system default
