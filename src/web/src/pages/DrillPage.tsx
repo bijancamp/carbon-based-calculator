@@ -10,9 +10,11 @@ const DRILL_DEFS = {
     lastN: 10,
     generate: () => {
       const n = Math.floor(Math.random() * 90) + 10;
+      // Randomly determine if 11 should be first or second in the expression
+      const elevenFirst = Math.random() < 0.5;
       return { 
-        problem: `${n} × 11`, 
-        speech: `${n} times 11`, 
+        problem: elevenFirst ? `11 × ${n}` : `${n} × 11`, 
+        speech: elevenFirst ? `11 times ${n}` : `${n} times 11`, 
         answer: n * 11
       };
     },
