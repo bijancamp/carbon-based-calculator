@@ -37,11 +37,13 @@ function AppLayout({ children }: { children: ReactNode }) {
             </IconButton>
           )}
           {/* Logo and App Name */}
-          <CalculateIcon
-            sx={{
-              display: { xs: 'none', sm: 'block' }, // Hide on xs screens
-            }}
-          />
+          <Link to="/" style={{ color: 'inherit' }}>
+            <CalculateIcon
+              sx={{
+                display: { xs: 'none', sm: 'block' }, // Hide on xs screens
+              }}
+            />
+          </Link>
           <Typography
             variant="h6"
             component={Link}
