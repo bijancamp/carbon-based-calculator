@@ -1,7 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { Box, Typography, IconButton, Drawer, FormControlLabel, Switch, RadioGroup, Radio, Select, MenuItem } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import SettingsIcon from '@mui/icons-material/Settings';
 import SettingsContext from '../settings/SettingsContext';
 
 interface SettingsPanelProps {
