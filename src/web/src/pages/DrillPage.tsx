@@ -2,7 +2,7 @@ import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { Box, Button, Divider, Paper, Stack, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import SettingsContext, { type Voice } from '../settings/SettingsContext';
+import SettingsContext from '../settings/SettingsContext';
 
 const DRILL_DEFS = {
   'multiply-by-11': {
