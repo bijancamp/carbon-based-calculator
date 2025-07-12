@@ -31,22 +31,32 @@ export default function SettingsProvider({ children }: { children: ReactNode }) 
       
       // Filter for only English voices and create voice objects
       const voiceObjects = voices
-        .filter(v => v.lang.startsWith('en-'))
-        .map(v => ({
-          name: v.name,
-          lang: v.lang,
-          displayName: `${v.name} (${v.lang})`
-        }));
+        .filter(v => v.lang.startsWith('en-'));
       
-      // Sort voices by lang and then by name
-      const sortedVoices = voiceObjects.sort((a, b) => {
-        // First sort by language
-        const langCompare = a.lang.localeCompare(b.lang);
-        if (langCompare !== 0) return langCompare;
-        
-        // Then sort by name
-        return a.name.localeCompare(b.name);
+      // Remove duplicates using a Map with a unique key
+      const uniqueVoices = new Map<string, Voice>();
+      
+      voiceObjects.forEach(v => {
+        const key = `${v.name}-${v.lang}`;
+        if (!uniqueVoices.has(key)) {
+          uniqueVoices.set(key, {
+            name: v.name,
+            lang: v.lang,
+            displayName: `${v.name} (${v.lang})`
+          });
+        }
       });
+      
+      // Convert Map values to array and sort
+      const sortedVoices = Array.from(uniqueVoices.values())
+        .sort((a, b) => {
+          // First sort by language
+          const langCompare = a.lang.localeCompare(b.lang);
+          if (langCompare !== 0) return langCompare;
+          
+          // Then sort by name
+          return a.name.localeCompare(b.name);
+        });
       
       // Add System Default as the first option
       const systemDefault: Voice = {
