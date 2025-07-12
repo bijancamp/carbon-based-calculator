@@ -10,6 +10,9 @@
       },
       "locationWeb": {
         "value": "${AZURE_LOCATION_WEB}"
+      },
+      "customDomain": {
+        "value": "${AZURE_STATIC_WEB_APP_CUSTOM_DOMAIN}"
       }
     }
 }

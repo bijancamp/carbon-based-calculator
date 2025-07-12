@@ -13,6 +13,9 @@ param location string
 @description('Location for web frontend')
 param locationWeb string = location
 
+@description('Optional custom domain for web frontend')
+param customDomain string = ''
+
 var abbrs = loadJsonContent('./abbreviations.json')
 
 var tags = {
@@ -36,6 +39,7 @@ module web 'br/public:avm/res/web/static-site:0.9.0' = {
     tags: union(tags, { 'azd-service-name': webServiceName })
     sku: 'Free'
     provider: 'Custom'
+    customDomains: !empty(customDomain) ? [customDomain] : []
   }
 }
 
