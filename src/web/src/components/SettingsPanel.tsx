@@ -1,7 +1,6 @@
 import { useContext, useEffect } from 'react';
-import { Box, Typography, IconButton, Drawer, FormControlLabel, Switch, RadioGroup, Radio, Select, MenuItem, Tooltip } from '@mui/material';
+import { Box, Typography, IconButton, Drawer, FormControlLabel, Switch, RadioGroup, Radio, Select, MenuItem } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import InfoIcon from '@mui/icons-material/Info';
 import SettingsContext from '../settings/SettingsContext';
 
 interface SettingsPanelProps {
@@ -63,14 +62,7 @@ export default function SettingsPanel({ open, onClose }: SettingsPanelProps) {
 
       {spokenProblemsMode && (
         <Box sx={{ mb: 3 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-            <Typography variant="subtitle1" fontWeight={500}>Voice</Typography>
-            <Tooltip title="For accuracy reasons, currently only English voices are available." arrow placement="right">
-              <IconButton size="small" sx={{ ml: 1, p: 0 }}>
-                <InfoIcon fontSize="small" color="action" />
-              </IconButton>
-            </Tooltip>
-          </Box>
+          <Typography variant="subtitle1" fontWeight={500} sx={{ mb: 1 }}>Voice</Typography>
           <Select
             value={voice ? JSON.stringify(voice) : ''}
             onChange={e => {
