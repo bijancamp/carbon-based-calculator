@@ -1,12 +1,11 @@
-import { type ReactNode, useContext, useState } from 'react';
+import { type ReactNode, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { AppBar, Box, Drawer, IconButton, List, ListItemButton, ListItemText, Toolbar, Typography, useMediaQuery, useTheme } from '@mui/material';
 import MaterialLink from '@mui/material/Link';
 import CalculateIcon from '@mui/icons-material/Calculate';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import LightModeIcon from '@mui/icons-material/LightMode';
 import MenuIcon from '@mui/icons-material/Menu';
-import { ColorModeContext } from '../App';
+import SettingsIcon from '@mui/icons-material/Settings';
+import SettingsPanel from './SettingsPanel';
 
 const navItems = [
   { label: 'Home', path: '/' },
@@ -14,13 +13,14 @@ const navItems = [
 ];
 
 function AppLayout({ children }: { children: ReactNode }) {
-  const colorModeContext = useContext(ColorModeContext);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [settingsPanelOpen, setSettingsPanelOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleDrawerToggle = () => setDrawerOpen((open) => !open);
+  const toggleSettingsPanel = () => setSettingsPanelOpen(open => !open);
 
   const handleNavClick = (path: string) => {
     setDrawerOpen(false);
@@ -71,8 +71,8 @@ function AppLayout({ children }: { children: ReactNode }) {
               ))}
             </>
           )}
-          <IconButton sx={{ ml: 2 }} onClick={colorModeContext?.toggleColorMode} color="inherit">
-            {theme.palette.mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
+          <IconButton sx={{ ml: 2 }} color="inherit" onClick={toggleSettingsPanel}>
+            <SettingsIcon />
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -100,6 +100,12 @@ function AppLayout({ children }: { children: ReactNode }) {
           . All rights reserved.
         </Typography>
       </Box>
+
+      {/* Settings Panel */}
+      <SettingsPanel 
+        open={settingsPanelOpen} 
+        onClose={() => setSettingsPanelOpen(false)} 
+      />
     </Box>
   );
 }
