@@ -43,6 +43,7 @@ export default function DrillPage() {
   const [currentIdx, setCurrentIdx] = useState(-1); // -1 means no problem yet
   const [showAnswer, setShowAnswer] = useState(false);
   const lastProblemsRef = useRef<{ [key: string]: string[] }>({});
+  const lastSpokenProblemRef = useRef<string | null>(null); // Track the last spoken problem
 
   // Function to speak text
   const speakText = useCallback((text: string) => {
@@ -121,9 +122,11 @@ export default function DrillPage() {
   
   // Speak the current problem when they change
   useEffect(() => {
-    if (currentProblem && voiceMode) {
-      if (!showAnswer) {
+    if (currentProblem && voiceMode && !showAnswer) {
+      // Only speak if this is a different problem than the last one we spoke
+      if (lastSpokenProblemRef.current !== currentProblem.problem) {
         speakText(currentProblem.speech);
+        lastSpokenProblemRef.current = currentProblem.problem;
       }
     }
   }, [currentProblem, showAnswer, voiceMode, speakText]);
