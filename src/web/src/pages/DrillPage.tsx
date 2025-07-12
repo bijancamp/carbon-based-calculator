@@ -44,10 +44,22 @@ export default function DrillPage() {
   const [showAnswer, setShowAnswer] = useState(false);
   const lastProblemsRef = useRef<{ [key: string]: string[] }>({});
   const lastSpokenProblemRef = useRef<string | null>(null); // Track the last spoken problem
+  const spokenProblemsModeRef = useRef(spokenProblemsMode);
+  const voiceRef = useRef(voice);
 
+  // Update ref when spokenProblemsMode changes
+  useEffect(() => {
+    spokenProblemsModeRef.current = spokenProblemsMode;
+  }, [spokenProblemsMode]);
+  
+  // Update ref when voice changes
+  useEffect(() => {
+    voiceRef.current = voice;
+  }, [voice]);
+  
   // Function to speak text
   const speakText = useCallback((text: string) => {
-    if (!spokenProblemsMode || !window.speechSynthesis) return;
+    if (!spokenProblemsModeRef.current || !window.speechSynthesis) return;
     
     // Cancel any ongoing speech
     if (speakRef.current) {
@@ -56,6 +68,8 @@ export default function DrillPage() {
     
     const utterance = new SpeechSynthesisUtterance(text);
     speakRef.current = utterance;
+
+    const voice = voiceRef.current;
     
     // Set the voice if specified
     if (voice && voice.name !== 'System Default') {
@@ -68,7 +82,7 @@ export default function DrillPage() {
     }
     
     window.speechSynthesis.speak(utterance);
-  }, [spokenProblemsMode, voice]);
+  }, [spokenProblemsModeRef, voiceRef]);
 
   // Generate a new unique problem and add to history
   const generateUniqueProblem = useCallback(() => {
@@ -120,17 +134,17 @@ export default function DrillPage() {
   }, [currentIdx, history.length, generateUniqueProblem]);
 
   const currentProblem = history[currentIdx] || null;
-  
+
   // Speak the current problem when they change
   useEffect(() => {
-    if (currentProblem && spokenProblemsMode && !showAnswer) {
+    if (currentProblem && spokenProblemsModeRef.current && !showAnswer) {
       // Only speak if this is a different problem than the last one we spoke
       if (lastSpokenProblemRef.current !== currentProblem.problem) {
         speakText(currentProblem.speech);
         lastSpokenProblemRef.current = currentProblem.problem;
       }
     }
-  }, [currentProblem, showAnswer, spokenProblemsMode, speakText]);
+  }, [currentProblem, showAnswer, speakText]);
 
   // Cleanup speech synthesis on unmount
   useEffect(() => {
