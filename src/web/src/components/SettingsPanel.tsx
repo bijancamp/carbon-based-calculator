@@ -71,24 +71,35 @@ export default function SettingsPanel({ open, onClose }: SettingsPanelProps) {
               </IconButton>
             </Tooltip>
           </Box>
-          <Select
+            <Select
             value={voice ? JSON.stringify(voice) : ''}
             onChange={e => {
               const selectedVoice = e.target.value ? JSON.parse(e.target.value) : null;
               setVoice(selectedVoice);
             }}
             fullWidth
-          >
+            >
             {availableVoices.length === 0 ? (
               <MenuItem value="" disabled>No voices found</MenuItem>
             ) : (
               availableVoices.map(v => (
-                <MenuItem key={v.name + v.lang} value={JSON.stringify(v)}>
-                  {v.displayName}
-                </MenuItem>
+              <MenuItem key={v.name + v.lang} value={JSON.stringify(v)}>
+                {`${v.name} (${v.lang})`}
+              </MenuItem>
               ))
             )}
-          </Select>
+            </Select>
+            
+            <Typography variant="caption" color="text.secondary">Available voices:</Typography>
+            {availableVoices.length === 0 ? (
+              <Typography variant="body2">No voices available</Typography>
+            ) : (
+              availableVoices.map((v, index) => (
+              <Typography key={index} variant="body2" sx={{ mt: 0.5 }}>
+                {JSON.stringify(v)}
+              </Typography>
+              ))
+            )}
         </Box>
       )}
     </Drawer>
