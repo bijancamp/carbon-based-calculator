@@ -64,15 +64,20 @@ export default function SettingsPanel({ open, onClose }: SettingsPanelProps) {
         <Box sx={{ mb: 3 }}>
           <Typography variant="subtitle1" fontWeight={500}>Voice</Typography>
           <Select
-            value={availableVoices.includes(voice) ? voice : ''}
-            onChange={e => setVoice(e.target.value)}
+            value={voice ? JSON.stringify(voice) : ''}
+            onChange={e => {
+              const selectedVoice = e.target.value ? JSON.parse(e.target.value) : null;
+              setVoice(selectedVoice);
+            }}
             fullWidth
           >
             {availableVoices.length === 0 ? (
               <MenuItem value="" disabled>No voices found</MenuItem>
             ) : (
               availableVoices.map(v => (
-                <MenuItem key={v} value={v}>{v}</MenuItem>
+                <MenuItem key={v.name + v.lang} value={JSON.stringify(v)}>
+                  {v.displayName}
+                </MenuItem>
               ))
             )}
           </Select>

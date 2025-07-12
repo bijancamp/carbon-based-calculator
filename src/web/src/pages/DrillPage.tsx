@@ -2,7 +2,7 @@ import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { Box, Button, Divider, Paper, Stack, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import SettingsContext from '../settings/SettingsContext';
+import SettingsContext, { type Voice } from '../settings/SettingsContext';
 
 const DRILL_DEFS = {
   'multiply-by-11': {
@@ -58,9 +58,10 @@ export default function DrillPage() {
     speakRef.current = utterance;
     
     // Set the voice if specified
-    if (voice) {
+    if (voice && voice.name !== 'System Default') {
       const voices = window.speechSynthesis.getVoices();
-      const selectedVoice = voices.find(v => v.name === voice);
+      // Find the voice that matches both name and language
+      const selectedVoice = voices.find(v => v.name === voice.name && v.lang === voice.lang);
       if (selectedVoice) {
         utterance.voice = selectedVoice;
       }
