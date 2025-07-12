@@ -68,6 +68,7 @@ jobs:
           AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
           AZURE_LOCATION_WEB: ${{ vars.AZURE_LOCATION_WEB }}
           AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+          AZURE_STATIC_WEB_APP_CUSTOM_DOMAIN: ${{ vars.AZURE_STATIC_WEB_APP_CUSTOM_DOMAIN }}
           AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
       - name: Deploy Application
