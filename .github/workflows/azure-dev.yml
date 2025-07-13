@@ -26,57 +26,46 @@ jobs:
       AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
-      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install azd
-        uses: Azure/setup-azd@v2
-
-      - name: Azure Login
+      - name: Log into Azure (az)
         uses: azure/login@v1
         with:
           client-id: ${{ vars.AZURE_CLIENT_ID }}
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Retrieve secret from Key Vault
+      - name: Retrieve secrets from Key Vault
         id: keyvault
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            # TODO: Revise below logic after confirming secret retrieval works
-            SECRET_VALUE=$(az keyvault secret show --name purpose --vault-name ${{ secrets.AZURE_VAULT_NAME }} --query value -o tsv)
-            # TODO: Remove below echo statement after confirming secret retrieval works
-            echo "$SECRET_VALUE"
-            echo "::add-mask::$SECRET_VALUE"
-            # TODO: Remove below echo statement after confirming secret retrieval works
-            echo "$SECRET_VALUE"
-            echo "SECRET_VALUE=$SECRET_VALUE" >> $GITHUB_ENV
+            secret_names=(
+              "AZURE_ENV_NAME"
+              "AZURE_LOCATION"
+              "AZURE_LOCATION_WEB"
+              "AZURE_RESOURCE_GROUP"
+              "AZURE_STATIC_WEB_APP_CUSTOM_DOMAIN"
+            )
 
-      - name: Log in with Azure (Federated Credentials)
-        if: ${{ env.AZURE_CLIENT_ID != '' }}
+            for name in "${secret_names[@]}"; do
+              SECRET_VALUE=$(az keyvault secret show --name "$name" --vault-name ${{ secrets.AZURE_VAULT_NAME }} --query value -o tsv)
+              echo "::add-mask::$SECRET_VALUE"
+              echo "$name=$SECRET_VALUE" >> $GITHUB_ENV
+            done
+
+      - name: Install azd
+        uses: Azure/setup-azd@v2
+
+      - name: Log into Azure (azd)
         run: |
           azd auth login `
             --client-id "$Env:AZURE_CLIENT_ID" `
             --federated-credential-provider "github" `
             --tenant-id "$Env:AZURE_TENANT_ID"
         shell: pwsh
-
-      - name: Log in with Azure (Client Credentials)
-        if: ${{ env.AZURE_CREDENTIALS != '' }}
-        run: |
-          $info = $Env:AZURE_CREDENTIALS | ConvertFrom-Json -AsHashtable;
-          Write-Host "::add-mask::$($info.clientSecret)"
-
-          azd auth login `
-            --client-id "$($info.clientId)" `
-            --client-secret "$($info.clientSecret)" `
-            --tenant-id "$($info.tenantId)"
-        shell: pwsh
-        env:
-          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Provision Infrastructure
         run: |
@@ -86,11 +75,11 @@ jobs:
             azd provision --no-prompt
           fi
         env:
-          AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
-          AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
-          AZURE_LOCATION_WEB: ${{ vars.AZURE_LOCATION_WEB }}
-          AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
-          AZURE_STATIC_WEB_APP_CUSTOM_DOMAIN: ${{ vars.AZURE_STATIC_WEB_APP_CUSTOM_DOMAIN }}
+          AZURE_ENV_NAME: ${{ env.azure-env-name }}
+          AZURE_LOCATION: ${{ env.azure-location }}
+          AZURE_LOCATION_WEB: ${{ env.azure-location-web }}
+          AZURE_RESOURCE_GROUP: ${{ env.azure-resource-group }}
+          AZURE_STATIC_WEB_APP_CUSTOM_DOMAIN: ${{ env.azure-static-web-app-custom-domain }}
           AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
       - name: Deploy Application
