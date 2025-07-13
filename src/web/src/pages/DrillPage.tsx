@@ -63,6 +63,27 @@ const DRILL_DEFS = {
       };
     },
   },
+  'calculate-15-tip': {
+    name: 'Calculate 15% Tip',
+    lastN: 10,
+    generate: () => {
+      // Choose a random bill amount from 10 to 200
+      const bill = Math.floor(Math.random() * 191) + 10;
+
+      // Calculate 15% tip
+      const tip = bill * 0.15
+      
+      // Format bill and tip as currency
+      const formattedBill = `$${bill}`;
+      const formattedTip = `$${tip.toFixed(2)}`;
+      
+      return {
+        problem: formattedBill,
+        speech: formattedBill,
+        answer: formattedTip
+      };
+    },
+  },
 };
 
 export default function DrillPage() {
@@ -72,7 +93,7 @@ export default function DrillPage() {
   const drill = DRILL_DEFS[drillType as keyof typeof DRILL_DEFS];
   const speakRef = useRef<SpeechSynthesisUtterance | null>(null);
   // History of problems for navigation
-  const [history, setHistory] = useState<{ problem: string; speech: string; answer: number }[]>([]);
+  const [history, setHistory] = useState<{ problem: string; speech: string; answer: number | string }[]>([]);
   const [currentIdx, setCurrentIdx] = useState(-1); // -1 means no problem yet
   const [showAnswer, setShowAnswer] = useState(false);
   const lastProblemsRef = useRef<{ [key: string]: string[] }>({});

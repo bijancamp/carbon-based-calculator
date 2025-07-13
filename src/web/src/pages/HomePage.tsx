@@ -17,6 +17,11 @@ const DRILLS = [
     name: 'Multiply Two-Digit Numbers with Same First Digit & Second Digits Summing to 10',
     description: 'When digits align, patterns shine.',
   },
+  {
+    type: 'calculate-15-tip',
+    name: 'Calculate 15% Tip',
+    description: 'Tip like Henry Hill at the Copacabana.',
+  },
 ];
 
 export default function HomePage() {
