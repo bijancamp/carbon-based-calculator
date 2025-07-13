@@ -33,7 +33,7 @@ const DRILL_DEFS = {
     },
   },
   'multiply-same-first-sum-10': {
-    name: 'Multiply Numbers with Same First Digit & Second Digits Summing to 10',
+    name: 'Multiply Two-Digit Numbers with Same First Digit & Second Digits Summing to 10',
     lastN: 8,
     generate: () => {
       // Generate a random first digit (1-9)

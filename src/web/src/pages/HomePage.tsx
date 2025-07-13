@@ -14,7 +14,7 @@ const DRILLS = [
   },
   {
     type: 'multiply-same-first-sum-10',
-    name: 'Multiply Numbers with Same First Digit & Second Digits Summing to 10',
+    name: 'Multiply Two-Digit Numbers with Same First Digit & Second Digits Summing to 10',
     description: 'When digits align, patterns shine.',
   },
 ];
