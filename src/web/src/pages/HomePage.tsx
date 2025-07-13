@@ -37,9 +37,10 @@ export default function HomePage() {
       </Typography>
       <Grid container spacing={2} direction={isMobile ? 'column' : 'row'} justifyContent="center">
         {DRILLS.map((drill) => (
-          <Grid size={{ xs: 12, sm: 6 }} key={drill.type}>
+          <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex' }} key={drill.type}>
             <Card
               sx={{
+                width: '100%',
                 transition: 'background 0.2s',
                 '&:hover': {
                   backgroundColor:
