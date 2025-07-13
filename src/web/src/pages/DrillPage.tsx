@@ -39,8 +39,8 @@ const DRILL_DEFS = {
       // Generate a random first digit (1-9)
       const firstDigit = Math.floor(Math.random() * 9) + 1;
       
-      // Generate a random second digit for the first number (0-9)
-      const secondDigit1 = Math.floor(Math.random() * 10);
+      // Generate a random second digit for the first number (1-9)
+      const secondDigit1 = Math.floor(Math.random() * 9) + 1;
       
       // Calculate the complementary second digit (so they sum to 10)
       const secondDigit2 = 10 - secondDigit1;
