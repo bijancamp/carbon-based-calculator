@@ -43,11 +43,11 @@ jobs:
         with:
           inlineScript: |
             secret_names=(
-              "AZURE_ENV_NAME"
-              "AZURE_LOCATION"
-              "AZURE_LOCATION_WEB"
-              "AZURE_RESOURCE_GROUP"
-              "AZURE_STATIC_WEB_APP_CUSTOM_DOMAIN"
+              "azure-env-name"
+              "azure-location"
+              "azure-location-web"
+              "azure-resource-group"
+              "azure-static-web-app-custom-domain"
             )
 
             for name in "${secret_names[@]}"; do
