@@ -40,7 +40,7 @@ jobs:
         with:
           inlineScript: |
             # TODO: Revise below logic after confirming secret retrieval works
-            SECRET_VALUE=$(az keyvault secret show --name life --vault-name ${{ secrets.KEYVAULT_NAME }} --query value -o tsv)
+            SECRET_VALUE=$(az keyvault secret show --name life --vault-name ${{ secrets.AZURE_VAULT_NAME }} --query value -o tsv)
             # TODO: Remove below echo statement after confirming secret retrieval works
             echo "$SECRET_VALUE"
             echo "::add-mask::$SECRET_VALUE"
