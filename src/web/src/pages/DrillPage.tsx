@@ -32,6 +32,37 @@ const DRILL_DEFS = {
       };
     },
   },
+  'multiply-same-first-sum-10': {
+    name: 'Multiply Numbers with Same First Digit & Second Digits Summing to 10',
+    lastN: 8,
+    generate: () => {
+      // Generate a random first digit (1-9)
+      const firstDigit = Math.floor(Math.random() * 9) + 1;
+      
+      // Generate a random second digit for the first number (0-9)
+      const secondDigit1 = Math.floor(Math.random() * 10);
+      
+      // Calculate the complementary second digit (so they sum to 10)
+      const secondDigit2 = 10 - secondDigit1;
+      
+      // Construct the two numbers
+      const num1 = firstDigit * 10 + secondDigit1;
+      const num2 = firstDigit * 10 + secondDigit2;
+      
+      // Calculate the answer using the pattern:
+      // xy × x(10-y) = x × x × 100 + x × y × (10-y)
+      // = x² × 100 + x × y × (10-y)
+      // = x² × 100 + x × (10y - y²)
+      // = x² × 100 + 10xy - xy²
+      const answer = num1 * num2;
+      
+      return {
+        problem: `${num1} × ${num2}`,
+        speech: `${num1} times ${num2}`,
+        answer: answer
+      };
+    },
+  },
 };
 
 export default function DrillPage() {

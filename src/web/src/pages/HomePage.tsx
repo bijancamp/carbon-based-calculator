@@ -12,6 +12,11 @@ const DRILLS = [
     name: 'Square Two-Digit Number Endings in 5',
     description: "This isn't exactly squaring light, but every mathemagician needs an Act I.",
   },
+  {
+    type: 'multiply-same-first-sum-10',
+    name: 'Multiply Numbers with Same First Digit & Second Digits Summing to 10',
+    description: 'When digits align, patterns shine.',
+  },
 ];
 
 export default function HomePage() {
