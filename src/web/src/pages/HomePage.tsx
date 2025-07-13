@@ -35,7 +35,7 @@ export default function HomePage() {
       <Typography variant="h5" sx={{ mb: 2, fontWeight: 600, textAlign: 'center' }}>
         Choose Your Drill
       </Typography>
-      <Grid container spacing={2} direction={isMobile ? 'column' : 'row'} justifyContent="center">
+      <Grid container spacing={2} direction={isMobile ? 'column' : 'row'} justifyContent="flex-start">
         {DRILLS.map((drill) => (
           <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex' }} key={drill.type}>
             <Card
