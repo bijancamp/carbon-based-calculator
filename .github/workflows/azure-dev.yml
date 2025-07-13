@@ -19,8 +19,9 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  prod-deploy:
     runs-on: ubuntu-latest
+    environment: Production
     env:
       AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
@@ -32,7 +33,21 @@ jobs:
 
       - name: Install azd
         uses: Azure/setup-azd@v2
-      
+
+      - name: Retrieve secret from Key Vault
+        id: keyvault
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            # TODO: Revise below logic after confirming secret retrieval works
+            SECRET_VALUE=$(az keyvault secret show --name life --vault-name ${{ secrets.KEYVAULT_NAME }} --query value -o tsv)
+            # TODO: Remove below echo statement after confirming secret retrieval works
+            echo "$SECRET_VALUE"
+            echo "::add-mask::$SECRET_VALUE"
+            # TODO: Remove below echo statement after confirming secret retrieval works
+            echo "$SECRET_VALUE"
+            echo "SECRET_VALUE=$SECRET_VALUE" >> $GITHUB_ENV
+
       - name: Log in with Azure (Federated Credentials)
         if: ${{ env.AZURE_CLIENT_ID != '' }}
         run: |
