@@ -79,7 +79,7 @@ function AppLayout({ children }: { children: ReactNode }) {
         </Toolbar>
       </AppBar>
       <Drawer anchor="left" open={drawerOpen} onClose={handleDrawerToggle}>
-        <Box sx={{ width: 220 }} role="presentation" onClick={handleDrawerToggle}>
+        <Box sx={{ width: 220 }} role="presentation">
           <List>
             {navItems.map((item) => (
               <ListItemButton key={item.path} onClick={() => handleNavClick(item.path)}>
