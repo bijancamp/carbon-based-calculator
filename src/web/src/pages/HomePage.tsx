@@ -46,18 +46,25 @@ export default function HomePage() {
             <Card
               sx={{
                 width: '100%',
-                transition: 'background 0.2s',
-                '&:hover': {
-                  backgroundColor:
-                    theme.palette.mode === 'dark'
-                      ? theme.palette.grey[800]
-                      : theme.palette.grey[200],
-                },
               }}
-              onClick={() => navigate(`/drills/${drill.type}`)}
             >
-              <CardActionArea>
-                <CardContent>
+              <CardActionArea
+                onClick={() => navigate(`/drills/${drill.type}`)}
+                sx={{
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'stretch',
+                  transition: 'background 0.2s',
+                  '&:hover': {
+                    backgroundColor:
+                      theme.palette.mode === 'dark'
+                        ? theme.palette.grey[800]
+                        : theme.palette.grey[200],
+                  },
+                }}
+              >
+                <CardContent sx={{ flexGrow: 1 }}>
                   <Typography variant="h6" sx={{ fontWeight: 500 }}>
                     {drill.name}
                   </Typography>
